@@ -1,0 +1,393 @@
+import type { PassiveNode } from '../../contracts/types';
+
+/**
+ * 24-node Radial Constellation Passive Skill Tree:
+ * - 3 Branches ('warlord' at -90 deg, 'assassin' at +30 deg, 'archmage' at +150 deg)
+ * - 8 nodes per branch arranged in symmetric radial constellation coordinates around (0, 0)
+ * - 3 dramatic Keystones: 'blood_pact', 'phantom_crit', 'elemental_overload'
+ */
+export const PASSIVE_CONSTELLATION_NODES: readonly PassiveNode[] = [
+  // ============================================================================
+  // WARLORD CONSTELLATION (Crimson Crown — North Sector, -90 deg)
+  // ============================================================================
+  {
+    id: 'warlord_might',
+    name: 'Lời Thề Sắt',
+    description: 'Rèn giũa sức mạnh thể chất bền bỉ và sức chịu đựng tiền tuyến (+4 Sức Mạnh, +18 Sinh Lực Tối Đa mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: 0, y: -64 },
+    prerequisites: [],
+    maxRank: 3,
+    statModifiers: {
+      strength: 4,
+      maxHp: 18,
+    },
+  },
+  {
+    id: 'warlord_iron_skin',
+    name: 'Thành Lũy Hắc Diệu',
+    description: 'Làm cứng giáp và gân thịt chống lại đòn đánh vực thẳm (+16 Giáp, +1.5 Hồi Sinh Lực mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: -49, y: -105 },
+    prerequisites: ['warlord_might'],
+    maxRank: 3,
+    statModifiers: {
+      armor: 16,
+      hpRegen: 1.5,
+    },
+  },
+  {
+    id: 'warlord_brutal_cleave',
+    name: 'Chém Của Đao Phủ',
+    description: 'Khuếch đại sức tác động thô vũ khí và lực nghiền nát (+7 Sức Tấn Công, +3 Sức Mạnh mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: 0, y: -118 },
+    prerequisites: ['warlord_might'],
+    maxRank: 3,
+    statModifiers: {
+      attackPower: 7,
+      strength: 3,
+    },
+  },
+  {
+    id: 'warlord_titan_vigor',
+    name: 'Nhịp Tim Titan',
+    description: 'Truyền sinh lực khổng lồ cổ đại vào máu huyết của bạn (+4 Thể Lực, +30 Sinh Lực Tối Đa mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: 49, y: -105 },
+    prerequisites: ['warlord_might'],
+    maxRank: 3,
+    statModifiers: {
+      vitality: 4,
+      maxHp: 30,
+    },
+  },
+  {
+    id: 'warlord_unbreakable',
+    name: 'Thành Lũy Bất Khả Phá',
+    description: 'Đứng vững bất động giữa bầy quái vật (+24 Giáp, +45 Sinh Lực Tối Đa, +2.5 Hồi Sinh Lực mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: -64, y: -160 },
+    prerequisites: ['warlord_iron_skin'],
+    maxRank: 2,
+    statModifiers: {
+      armor: 24,
+      maxHp: 45,
+      hpRegen: 2.5,
+    },
+  },
+  {
+    id: 'warlord_juggernaut_fury',
+    name: 'Thăng Thiên Chiến Tướng',
+    description: 'Những cú đánh nặng nề đổ xuống với nhịp điệu nghiền xương (+11 Sức Tấn Công, +6% Tốc Độ Tấn Công, +15% Sát Thương Chí Mạng mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: 0, y: -174 },
+    prerequisites: ['warlord_brutal_cleave'],
+    maxRank: 2,
+    statModifiers: {
+      attackPower: 11,
+      attackSpeed: 0.06,
+      critMultiplier: 0.15,
+    },
+  },
+  {
+    id: 'warlord_crimson_thirst',
+    name: 'Kẻ Tàn Phá Thẫm Đỏ',
+    description: 'Hút sinh lực từ kẻ thù bị chém và duy trì những đợt tấn công không ngừng (+3% Hút Máu, +15 Thể Lực Tối Đa, +3 Hồi Thể Lực mỗi cấp).',
+    branch: 'warlord',
+    isKeystone: false,
+    position: { x: 64, y: -160 },
+    prerequisites: ['warlord_titan_vigor'],
+    maxRank: 2,
+    statModifiers: {
+      lifeSteal: 0.03,
+      maxStamina: 15,
+      staminaRegen: 3,
+    },
+  },
+  {
+    id: 'blood_pact',
+    name: 'Đá Tảng: Giao Ước Máu',
+    description:
+      'Ký kết giao ước cấm trong máu hoàng gia: hy sinh -15 Phép Lực Tối Đa để nhận +90 Sinh Lực Tối Đa, +8 Thể Lực, +20 Sức Tấn Công, và +8% Hút Máu.',
+    branch: 'warlord',
+    isKeystone: true,
+    position: { x: 0, y: -228 },
+    prerequisites: ['warlord_juggernaut_fury'],
+    maxRank: 1,
+    statModifiers: {
+      vitality: 8,
+      maxHp: 90,
+      attackPower: 20,
+      lifeSteal: 0.08,
+      maxMana: -15,
+    },
+    specialKeystoneId: 'blood_pact',
+  },
+
+  // ============================================================================
+  // ASSASSIN CONSTELLATION (Emerald Fang — Southeast Sector, +30 deg)
+  // ============================================================================
+  {
+    id: 'assassin_precision',
+    name: 'Bản Năng Dao Cạo',
+    description: 'Mài giũa độ chính xác và sự khéo léo của lưỡi dao chết người (+4 Nhanh Nhẹn, +3% Chí Mạng mỗi cấp).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 55, y: 32 },
+    prerequisites: [],
+    maxRank: 3,
+    statModifiers: {
+      dexterity: 4,
+      critChance: 0.03,
+    },
+  },
+  {
+    id: 'assassin_fleet_foot',
+    name: 'Bước Chân Gió',
+    description: 'Lướt nhanh qua bóng tối và né tránh đòn tấn công sắp tới (+0.35 Tốc Độ Di Chuyển, +3% Né Tránh mỗi cấp).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 116, y: 10 },
+    prerequisites: ['assassin_precision'],
+    maxRank: 3,
+    statModifiers: {
+      moveSpeed: 0.35,
+      dodgeChance: 0.03,
+    },
+  },
+  {
+    id: 'assassin_lethal_edge',
+    name: 'Lưỡi Dao Tìm Tim',
+    description: 'Tìm khoảng trống trong giáp ma quỷ để gây vết thương chí mạng tàn khốc (+6 Sức Tấn Công, +10% Sát Thương Chí Mạng mỗi cấp).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 102, y: 59 },
+    prerequisites: ['assassin_precision'],
+    maxRank: 3,
+    statModifiers: {
+      attackPower: 6,
+      critMultiplier: 0.1,
+    },
+  },
+  {
+    id: 'assassin_venom_craft',
+    name: 'Nanh Giả Kim',
+    description: 'Tăng tốc cơn loạn tiễn và sức mạnh độc tố (+5% Tốc Độ Tấn Công, +3 Nhanh Nhẹn, +4 Sức Mạnh Phép mỗi cấp).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 67, y: 95 },
+    prerequisites: ['assassin_precision'],
+    maxRank: 3,
+    statModifiers: {
+      attackSpeed: 0.05,
+      dexterity: 3,
+      spellPower: 4,
+    },
+  },
+  {
+    id: 'assassin_shadow_veil',
+    name: 'Phản Xạ Ảo Ảnh',
+    description: 'Trở thành bóng mờ chuyển động không thể chạm tới (+5% Né Tránh, +18 Thể Lực Tối Đa, +4 Hồi Thể Lực mỗi cấp).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 170, y: 24 },
+    prerequisites: ['assassin_fleet_foot'],
+    maxRank: 2,
+    statModifiers: {
+      dodgeChance: 0.05,
+      maxStamina: 18,
+      staminaRegen: 4,
+    },
+  },
+  {
+    id: 'assassin_nightstalker',
+    name: 'Hành Quyết Thợ Săn Đêm',
+    description: 'Tinh thông các cuộc phục kích chí mạng (+5% Chí Mạng, +18% Sát Thương Chí Mạng, +7% Tốc Độ Tấn Công mỗi cấp).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 151, y: 87 },
+    prerequisites: ['assassin_lethal_edge'],
+    maxRank: 2,
+    statModifiers: {
+      critChance: 0.05,
+      critMultiplier: 0.18,
+      attackSpeed: 0.07,
+    },
+  },
+  {
+    id: 'assassin_culling_blade',
+    name: 'Reaper Momentum',
+    description: 'Relentless follow-through on weakened prey (+9 Attack Power, +3% Life Steal, +4% Cooldown Reduction per rank).',
+    branch: 'assassin',
+    isKeystone: false,
+    position: { x: 106, y: 136 },
+    prerequisites: ['assassin_venom_craft'],
+    maxRank: 2,
+    statModifiers: {
+      attackPower: 9,
+      lifeSteal: 0.03,
+      cooldownReduction: 0.04,
+    },
+  },
+  {
+    id: 'phantom_crit',
+    name: 'Keystone: Phantom Crit',
+    description:
+      'Embrace spectral lethality: shed -10 Armor to gain +12% Crit Chance, +35% Crit Damage, +8% Dodge Chance, +8 Dexterity, and +0.45 Move Speed.',
+    branch: 'assassin',
+    isKeystone: true,
+    position: { x: 197, y: 114 },
+    prerequisites: ['assassin_nightstalker'],
+    maxRank: 1,
+    statModifiers: {
+      dexterity: 8,
+      critChance: 0.12,
+      critMultiplier: 0.35,
+      dodgeChance: 0.08,
+      moveSpeed: 0.45,
+      armor: -10,
+    },
+    specialKeystoneId: 'phantom_crit',
+  },
+
+  // ============================================================================
+  // ARCHMAGE CONSTELLATION (Astral Eye — Southwest Sector, +150 deg)
+  // ============================================================================
+  {
+    id: 'archmage_insight',
+    name: 'Astral Awakening',
+    description: 'Expands your mind to channel deeper arcane reservoirs (+4 Intelligence, +18 Max Mana per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -55, y: 32 },
+    prerequisites: [],
+    maxRank: 3,
+    statModifiers: {
+      intelligence: 4,
+      maxMana: 18,
+    },
+  },
+  {
+    id: 'archmage_leyline_flow',
+    name: 'Leyline Conduit',
+    description: 'Draws ambient aether to restore mana and hasten incantations (+1.8 Mana Regen, +4% Cooldown Reduction per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -67, y: 95 },
+    prerequisites: ['archmage_insight'],
+    maxRank: 3,
+    statModifiers: {
+      manaRegen: 1.8,
+      cooldownReduction: 0.04,
+    },
+  },
+  {
+    id: 'archmage_astral_surge',
+    name: 'Starfire Amplification',
+    description: 'Infuses every spell with searing celestial force (+8 Spell Power, +3 Intelligence per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -102, y: 59 },
+    prerequisites: ['archmage_insight'],
+    maxRank: 3,
+    statModifiers: {
+      spellPower: 8,
+      intelligence: 3,
+    },
+  },
+  {
+    id: 'archmage_arcane_ward',
+    name: 'Runic Sanctuary',
+    description: 'Woven sigils cushion your mortal frame (+22 Max HP, +15 Max Mana, +10 Armor per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -116, y: 10 },
+    prerequisites: ['archmage_insight'],
+    maxRank: 3,
+    statModifiers: {
+      maxHp: 22,
+      maxMana: 15,
+      armor: 10,
+    },
+  },
+  {
+    id: 'archmage_chrono_weave',
+    name: 'Chronomancer Pulse',
+    description: 'Bend time between spellcasts (+6% Cooldown Reduction, +2.2 Mana Regen, +0.25 Move Speed per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -106, y: 136 },
+    prerequisites: ['archmage_leyline_flow'],
+    maxRank: 2,
+    statModifiers: {
+      cooldownReduction: 0.06,
+      manaRegen: 2.2,
+      moveSpeed: 0.25,
+    },
+  },
+  {
+    id: 'archmage_cataclysmic_focus',
+    name: 'Cataclysmic Convergence',
+    description: 'Devastating elemental resonance (+13 Spell Power, +4% Crit Chance, +15% Crit Damage per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -151, y: 87 },
+    prerequisites: ['archmage_astral_surge'],
+    maxRank: 2,
+    statModifiers: {
+      spellPower: 13,
+      critChance: 0.04,
+      critMultiplier: 0.15,
+    },
+  },
+  {
+    id: 'archmage_celestial_aegis',
+    name: 'Celestial Mantle',
+    description: 'Resplendent astral barrier of mana and lifeforce (+35 Max Mana, +30 Max HP, +14 Armor per rank).',
+    branch: 'archmage',
+    isKeystone: false,
+    position: { x: -170, y: 24 },
+    prerequisites: ['archmage_arcane_ward'],
+    maxRank: 2,
+    statModifiers: {
+      maxMana: 35,
+      maxHp: 30,
+      armor: 14,
+    },
+  },
+  {
+    id: 'elemental_overload',
+    name: 'Keystone: Elemental Overload',
+    description:
+      'Unshackle pure astral cataclysm: gain +26 Spell Power, +10 Intelligence, +12% Cooldown Reduction, +45 Max Mana, and +3.0 Mana Regen.',
+    branch: 'archmage',
+    isKeystone: true,
+    position: { x: -197, y: 114 },
+    prerequisites: ['archmage_cataclysmic_focus'],
+    maxRank: 1,
+    statModifiers: {
+      intelligence: 10,
+      spellPower: 26,
+      cooldownReduction: 0.12,
+      maxMana: 45,
+      manaRegen: 3.0,
+    },
+    specialKeystoneId: 'elemental_overload',
+  },
+];
+
+export function clonePassiveNode(node: PassiveNode): PassiveNode {
+  return {
+    ...node,
+    position: { ...node.position },
+    prerequisites: [...node.prerequisites],
+    statModifiers: { ...node.statModifiers },
+  };
+}

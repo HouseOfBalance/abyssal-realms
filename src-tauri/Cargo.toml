@@ -1,0 +1,16 @@
+[package]
+name = "abyssal_realms"
+version = "2.0.0"
+edition = "2021"
+description = "Rust Native Android Core (JNI + Cross-Play Engine) for Vực Thẳm Huyền Bí (Abyssal Realms)"
+
+[lib]
+name = "abyssal_realms"
+crate-type = ["cdylib"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

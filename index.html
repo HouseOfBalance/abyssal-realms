@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi" data-device="desktop">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Vực Thẳm Huyền Bí</title>
+    <style>
+      :root {
+        --bg-void: #07060a;
+        --bg-panel: rgba(14, 12, 20, 0.88);
+        --bg-panel-solid: #120f1a;
+        --border-gold: #c89b3c;
+        --border-gold-dim: rgba(200, 155, 60, 0.42);
+        --accent-crimson: #c92a2a;
+        --accent-mana: #1d6fe8;
+        --accent-arcane: #9c36b5;
+        --accent-emerald: #2f9e44;
+        --text-primary: #f1e9d2;
+        --text-muted: #9e937b;
+        --rarity-common: #d0d0d0;
+        --rarity-uncommon: #40c057;
+        --rarity-rare: #339af0;
+        --rarity-epic: #be4bdb;
+        --rarity-legendary: #ff922b;
+        --font-display: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+        --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+      }
+
+      html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg-void);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+      }
+
+      #game-canvas-container {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+      }
+
+      #ui-hud-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      #ui-menus-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        pointer-events: none;
+      }
+
+      #ui-multiplayer-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 24;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-canvas-container"></div>
+    <div id="ui-hud-layer"></div>
+    <div id="ui-menus-layer"></div>
+    <div id="ui-multiplayer-layer"></div>
+    <div id="ui-touch-layer" style="position:fixed;inset:0;z-index:15;pointer-events:none;"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
